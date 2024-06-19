@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package userservice;
+
+import "google/protobuf/timestamp.proto";
+
+service UserService {
+  rpc FindOne (GetUserRequest) returns (User) {};
+  rpc Create (CreateUserRequest) returns (CreateUserResponse) {};
+  rpc FindAll(FindAllRequest) returns (FindAllResponse);
+  rpc Update (UpdateUserRequest) returns (UpdateUserResponse) {};
+  rpc remove (DeleteUserRequest) returns (DeleteUserResponse){};
+}
+
+message User {
+  int32 id = 1;
+  string username = 2;
+  string email = 3;
+  int32 comments = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+
+message CreateUserRequest {
+  string username = 1;
+  string email = 2;
+}
+
+message CreateUserResponse {
+  User user = 1;
+}
+
+message GetUserRequest {
+  int32 id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message UpdateUserRequest {
+  int32 id = 1;
+  string username = 2;
+  string email = 3;
+}
+
+message UpdateUserResponse {
+  User user = 1;
+}
+
+message DeleteUserRequest {
+  int32 id = 1;
+}
+
+message DeleteUserResponse {
+  string message = 1;
+}
+
+message FindAllRequest {}
+
+message FindAllResponse {
+  repeated User users = 1;
+}
+message Users {
+  repeated User users = 1;
+}

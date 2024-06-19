@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package comment;
+
+import "google/protobuf/timestamp.proto";
+
+message Comment {
+    int32 id = 1;
+    string content = 2;
+    int32 parentId = 3;
+    int32 post = 4;
+    int32 user = 5;
+    repeated Comment replies = 6;
+    repeated int32 likes = 7;
+    google.protobuf.Timestamp createdAt = 8;
+    google.protobuf.Timestamp deletedAt = 9;
+}
+
+message CreateCommentRequest {
+    string content = 1;
+    int32 parentId = 2;
+    int32 postId = 3;
+    int32 userId = 4;
+}
+
+message FindAllCommentsRequest {
+    int32 page = 1;
+    int32 limit = 2;
+    string sortBy = 3;
+    string sortOrder = 4;
+    string filter = 5;
+}
+
+message FindOneCommentRequest {
+    int32 id = 1;
+}
+
+message FindCommentsByPostIdRequest {
+    int32 postId = 1;
+}
+
+message UpdateCommentRequest {
+    int32 id = 1;
+    string content = 2;
+    int32 parentId = 3;
+    int32 postId = 4;
+    int32 userId = 5;
+}
+
+message RemoveCommentRequest {
+    int32 id = 1;
+}
+
+message CommentResponse {
+    Comment comment = 1;
+}
+
+message CommentListResponse {
+    repeated Comment comments = 1;
+}
+
+message RemoveCommentResponse {
+    string message = 1;
+}
+
+service CommentsService {
+    rpc CreateComment (CreateCommentRequest) returns (CommentResponse) {}
+    rpc FindAllComments (FindAllCommentsRequest) returns (CommentListResponse) {}
+    rpc FindOneComment (FindOneCommentRequest) returns (CommentResponse) {}
+    rpc FindCommentsByPostId (FindCommentsByPostIdRequest) returns (CommentListResponse) {}
+    rpc UpdateComment (UpdateCommentRequest) returns (CommentResponse) {}
+    rpc RemoveComment (RemoveCommentRequest) returns (RemoveCommentResponse) {}
+}
